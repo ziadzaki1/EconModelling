@@ -1,6 +1,6 @@
 from color_point import ColorPoint
 
-class UniqueAdvancedPoint(ColorPoint):  # Inheriting from ColorPoint
+class AdvancedPoint(ColorPoint):  # Inheriting from ColorPoint
     PALETTE = ["red", "green", "blue", "black", "white"]
 
     def __init__(self, x, y, hue):
@@ -28,9 +28,20 @@ class UniqueAdvancedPoint(ColorPoint):  # Inheriting from ColorPoint
 
     @hue.setter
     def hue(self, new_hue):
-        if new_hue not in UniqueAdvancedPoint.PALETTE:
-            raise ValueError(f"hue must be one of: {UniqueAdvancedPoint.PALETTE}")
+        if new_hue not in AdvancedPoint.PALETTE:
+            raise ValueError(f"hue must be one of: {AdvancedPoint.PALETTE}")
         self._hue = new_hue
+
+    @property
+    def color(self):
+        # Provide compatibility with ColorPoint, using hue as color
+        return self._hue
+
+    @color.setter
+    def color(self, new_color):
+        if new_color not in AdvancedPoint.PALETTE:
+            raise ValueError(f"color must be one of: {AdvancedPoint.PALETTE}")
+        self._hue = new_color
 
     @classmethod
     def extend_palette(cls, new_hue):
@@ -45,13 +56,13 @@ class UniqueAdvancedPoint(ColorPoint):  # Inheriting from ColorPoint
         x = info.get("x", 10)
         y = info.get("y", 20)
         hue = info.get("hue", "black")
-        return UniqueAdvancedPoint(x, y, hue)
+        return AdvancedPoint(x, y, hue)
 
 # Example usage:
-UniqueAdvancedPoint.extend_palette("amber")
-pt2 = UniqueAdvancedPoint(1, 2, "amber")
+AdvancedPoint.extend_palette("amber")
+pt2 = AdvancedPoint(1, 2, "amber")
 pt2.hue = "blue"
-pt3 = UniqueAdvancedPoint(-1, -2, "blue")
-print(UniqueAdvancedPoint.euclidean_distance(pt2, pt3))
-pt4 = UniqueAdvancedPoint.from_dict({"x": 44})
+pt3 = AdvancedPoint(-1, -2, "blue")
+print(AdvancedPoint.euclidean_distance(pt2, pt3))
+pt4 = AdvancedPoint.from_dict({"x": 44})
 print(pt4)
